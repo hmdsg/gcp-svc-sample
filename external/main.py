@@ -1,7 +1,9 @@
 from flask import Flask,render_template
 import requests
+import os
 
-INTERNAL_URL = "http://localhost:81"
+def get_internal_url():
+    return os.getenv('INTERNAL_URL', 'http://localhost')
 
 app = Flask(__name__)
 
@@ -11,7 +13,8 @@ def default():
 
 @app.route("/internal")
 def get_internal():
-    res = requests.get(INTERNAL_URL)
+    internal_url = get_internal_url()
+    res = requests.get(internal_url)
     return "response : " + res.text 
 
 if __name__ == "__main__":
